@@ -37,12 +37,23 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:${{ github.sha }} \
+          docker build -t retailstore/${{ matrix.service }}:${{ github.sha }} \
             src/${{ matrix.service }}
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: retailstore/${{ matrix.service }}:${{ github.sha }}
+          format: table
+          exit-code: 1
+          severity: CRITICAL
+          ignore-unfixed: true
 
       - name: Push to ECR
         run: |
+          docker tag retailstore/${{ matrix.service }}:${{ github.sha }} \
+            ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:${{ github.sha }}
           docker push ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:${{ github.sha }}
-          docker tag ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:${{ github.sha }} \
+          docker tag retailstore/${{ matrix.service }}:${{ github.sha }} \
             ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:latest
           docker push ${{ env.ECR_REGISTRY }}/retailstore/${{ matrix.service }}:latest
