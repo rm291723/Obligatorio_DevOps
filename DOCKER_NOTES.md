@@ -1,0 +1,1 @@
+# Docker optimization notes
