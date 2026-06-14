@@ -8,6 +8,7 @@ RUN npm run build
 
 # Etapa 2: producción
 FROM node:22-alpine
+RUN apk upgrade --no-cache
 WORKDIR /app
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=builder /app/dist ./dist
