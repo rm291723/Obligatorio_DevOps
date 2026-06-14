@@ -1,0 +1,4 @@
+# CVE-2026-33671 - picomatch HIGH en npm interno de la imagen base Node.js
+# No afecta al runtime de producción, npm no se usa para ejecutar la aplicación
+# No hay fix disponible sin cambiar la imagen base completa
+CVE-2026-33671

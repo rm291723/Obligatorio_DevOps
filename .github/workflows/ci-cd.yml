@@ -79,6 +79,7 @@ jobs:
           exit-code: 1
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+          trivyignores: .trivyignore
 
       - name: Push to ECR
         run: |
