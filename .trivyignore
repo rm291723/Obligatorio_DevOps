@@ -2,3 +2,9 @@
 # No afecta al runtime de producción, npm no se usa para ejecutar la aplicación
 # No hay fix disponible sin cambiar la imagen base completa
 CVE-2026-33671
+
+# CVE-2025-62727 - starlette HIGH DoS via Range header
+# El fix requiere starlette>=0.49.1 pero fastapi==0.115.x tiene límite starlette<0.47.0
+# Actualizar fastapi a versión mayor puede romper compatibilidad con el código existente
+# Remediación pendiente: evaluar actualización de fastapi a versión compatible con starlette 0.49.1
+CVE-2025-62727
