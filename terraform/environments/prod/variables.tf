@@ -38,11 +38,6 @@ variable "ecr_registry" {
   type        = string
 }
 
-variable "services_list" {
-  description = "Lista de microservicios"
-  type        = list(string)
-}
-
 variable "services" {
   description = "Configuracion de servicios"
   type = map(object({
