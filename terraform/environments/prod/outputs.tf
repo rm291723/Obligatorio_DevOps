@@ -8,7 +8,3 @@ output "cluster_name" {
   value       = module.ecs.cluster_name
 }
 
-output "ecr_repository_urls" {
-  description = "URLs de los repositorios ECR"
-  value       = module.ecr.repository_urls
-}
