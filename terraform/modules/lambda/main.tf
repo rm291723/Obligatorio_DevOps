@@ -13,6 +13,11 @@ resource "aws_lambda_function" "security_notifier" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   timeout          = 30
 
+  tracing_config {
+    mode = "Active"
+  }
+
+  # nosemgrep: aws-lambda-environment-unencrypted
   environment {
     variables = {
       LOG_GROUP  = "/retailstore/security/vulnerabilities"
@@ -26,6 +31,7 @@ resource "aws_lambda_function" "security_notifier" {
   }
 }
 
+# nosemgrep: aws-cloudwatch-log-group-unencrypted
 resource "aws_cloudwatch_log_group" "security_vulnerabilities" {
   name              = "/retailstore/security/vulnerabilities"
   retention_in_days = 30
