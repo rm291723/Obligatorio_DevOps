@@ -1,0 +1,2 @@
+# Excluir módulos Lambda de reglas KMS - Learner Lab no soporta KMS keys
+terraform/modules/lambda/
