@@ -47,3 +47,12 @@ module "ecs" {
   ecr_registry   = var.ecr_registry
   services       = var.services
 }
+
+module "lambda" {
+  source = "../../modules/lambda"
+
+  project_name   = var.project_name
+  environment    = var.environment
+  aws_account_id = var.aws_account_id
+  aws_region     = var.aws_region
+}
