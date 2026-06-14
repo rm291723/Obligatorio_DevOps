@@ -20,8 +20,7 @@ resource "aws_lambda_function" "security_notifier" {
   # nosemgrep: aws-lambda-environment-unencrypted
   environment {
     variables = {
-      LOG_GROUP  = "/retailstore/security/vulnerabilities"
-      AWS_REGION = var.aws_region
+      LOG_GROUP = "/retailstore/security/vulnerabilities"
     }
   }
 

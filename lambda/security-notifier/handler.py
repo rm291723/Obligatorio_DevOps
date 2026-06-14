@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     y las registra en CloudWatch Logs con formato estructurado.
     """
     
-    cloudwatch = boto3.client('logs', region_name=os.environ.get('AWS_REGION', 'us-east-1'))
+    cloudwatch = boto3.client('logs', region_name='us-east-1')
     
     log_group = os.environ.get('LOG_GROUP', '/retailstore/security/vulnerabilities')
     log_stream = f"trivy-{datetime.utcnow().strftime('%Y/%m/%d')}"
