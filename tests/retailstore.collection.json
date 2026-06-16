@@ -1,0 +1,170 @@
+{
+    "info": {
+        "name": "RetailStore API Tests",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "UI Health Check",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/health"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('UI health check returns OK', function() {",
+                            "  pm.response.to.have.status(200);",
+                            "  pm.expect(pm.response.text()).to.equal('OK');",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Health Check",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/health"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Admin health check returns OK', function() {",
+                            "  pm.response.to.have.status(200);",
+                            "  pm.expect(pm.response.text()).to.equal('OK');",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Login",
+            "request": {
+                "method": "POST",
+                "url": "http://localhost:8081/auth/login",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"username\": \"admin\", \"password\": \"admin\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Admin login returns ok', function() {",
+                            "  pm.response.to.have.status(200);",
+                            "  var json = pm.response.json();",
+                            "  pm.expect(json.ok).to.be.true;",
+                            "});",
+                            "var cookie = pm.response.headers.get('Set-Cookie');",
+                            "if (cookie) pm.environment.set('auth_cookie', cookie.split(';')[0]);"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Login Invalid Credentials",
+            "request": {
+                "method": "POST",
+                "url": "http://localhost:8081/auth/login",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"username\": \"wrong\", \"password\": \"wrong\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Invalid credentials returns 401', function() {",
+                            "  pm.response.to.have.status(401);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get Catalog Products",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/api/catalog/products"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Catalog returns products array', function() {",
+                            "  pm.response.to.have.status(200);",
+                            "  var json = pm.response.json();",
+                            "  pm.expect(json).to.be.an('array');",
+                            "  pm.expect(json.length).to.be.above(0);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get Cart",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/api/carts/carts/test-user"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Cart endpoint responds', function() {",
+                            "  pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Checkout Health",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/api/checkout/checkout/test-user"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Checkout health returns 404', function() {",
+                            "  pm.response.to.have.status(404);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

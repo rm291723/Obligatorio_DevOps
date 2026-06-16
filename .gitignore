@@ -1,7 +1,7 @@
-## Terraform
+# Terraform
 **/.terraform/
 *.tfstate
 *.tfstate.backup
 *.tfstate.lock.info
 terraform/modules/lambda/*.zip
-.terraform.tfstate.lock.info
+.terraform.tfstate.lock.info*.xml
