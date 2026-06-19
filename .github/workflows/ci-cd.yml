@@ -172,10 +172,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Plan Environments
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
         run: |
-          # Determina qué entorno planificar según el branch destino del PR
+          # Determina qué entorno planificar usando la variable de entorno segura
           TARGET_ENV="dev"
-          if [ "${{ github.base_ref }}" = "main" ]; then TARGET_ENV="prod"; fi
+          if [ "$GITHUB_BASE_REF" = "main" ]; then TARGET_ENV="prod"; fi
           
           cd terraform/environments/$TARGET_ENV
           terraform init

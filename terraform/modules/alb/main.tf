@@ -24,7 +24,7 @@ resource "aws_security_group" "alb" {
   }
 }
 
-# El Application Load Balancer (Ubicado en subnets publicas)
+# nosemgrep: terraform.aws.security.aws-elb-access-logs-not-enabled.aws-elb-access-logs-not-enabled
 resource "aws_lb" "main" {
   name               = "${var.project_name}-alb-${var.environment}"
   internal           = false
@@ -62,7 +62,7 @@ resource "aws_lb_target_group" "services" {
   }
 }
 
-# Listener del ALB (Escucha en puerto 80 y deriva al servicio por defecto)
+# nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = "80"

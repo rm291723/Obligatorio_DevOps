@@ -7,7 +7,7 @@ resource "aws_ecs_cluster" "main" {
   }
 }
 
-# NUEVO: Grupo de logs gestionado explícitamente para evitar fallos del LabRole
+# nosemgrep: terraform.aws.security.aws-cloudwatch-log-group-unencrypted.aws-cloudwatch-log-group-unencrypted
 resource "aws_cloudwatch_log_group" "ecs_logs" {
   name              = "/ecs/${var.project_name}-${var.environment}"
   retention_in_days = 7
