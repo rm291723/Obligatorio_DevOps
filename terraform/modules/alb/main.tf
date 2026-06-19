@@ -30,7 +30,7 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets            = var.public_subnet_ids # Recibe las subnets públicas de la VPC
+  subnets            = var.public_subnet_ids
 
   tags = {
     Name        = "${var.project_name}-alb-${var.environment}"
@@ -38,21 +38,20 @@ resource "aws_lb" "main" {
   }
 }
 
-# nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
 resource "aws_lb_target_group" "services" {
   for_each    = toset(var.service_names)
   name        = "${var.project_name}-${each.key}-tg-${var.environment}"
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
-  target_type = "ip" # OBLIGATORIO para ECS Fargate
+  target_type = "ip"
 
   health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5
     interval            = 30
-    path                = "/" # Ajusta la ruta de healthcheck de RetailStore si es necesario
+    path                = "/"
     matcher             = "200"
   }
 
@@ -68,7 +67,6 @@ resource "aws_lb_listener" "http" {
   port              = "80"
   protocol          = "HTTP"
 
-  # Por defecto da un error fijo si no machea ninguna regla de microservicio
   default_action {
     type = "fixed-response"
 
@@ -80,13 +78,10 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# Reglas de enrutamiento basadas en rutas (Path-based routing) para tus microservicios
 resource "aws_lb_listener_rule" "services" {
   for_each     = toset(var.service_names)
   listener_arn = aws_lb_listener.http.arn
-
-  # CORRECCIÓN AQUÍ: Usamos tolist y each.key para que no rompa la prioridad del ALB
-  priority = index(tolist(var.service_names), each.key) + 10
+  priority     = index(tolist(var.service_names), each.key) + 10
 
   action {
     type             = "forward"
