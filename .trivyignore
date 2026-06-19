@@ -26,3 +26,14 @@ CVE-2026-3520
 CVE-2026-4926
 GHSA-5c6j-r48x-rmvq
 CVE-2026-44705
+
+# CVE-2026-48818 - starlette HIGH SSRF via StaticFiles UNC paths
+# El microservicio cart es una API REST pura, no monta StaticFiles en ningún endpoint.
+# El vector de ataque no aplica. Fix requiere starlette>=1.1.0, incompatible con
+# fastapi==0.115.12 y prometheus-fastapi-instrumentator==7.0.0 sin romper el stack.
+CVE-2026-48818
+
+# CVE-2026-54283 - starlette HIGH DoS via form limits ignorados
+# El microservicio cart no recibe application/x-www-form-urlencoded, solo JSON.
+# El vector de ataque no aplica. Misma restricción de compatibilidad que CVE-2026-48818.
+CVE-2026-54283
