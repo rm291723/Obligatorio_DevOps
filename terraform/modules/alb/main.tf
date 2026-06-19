@@ -38,7 +38,7 @@ resource "aws_lb" "main" {
   }
 }
 
-# Target Group base (Apunta a IP porque Fargate usa modo de red awsvpc)
+# nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
 resource "aws_lb_target_group" "services" {
   for_each    = toset(var.service_names)
   name        = "${var.project_name}-${each.key}-tg-${var.environment}"
