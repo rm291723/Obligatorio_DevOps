@@ -37,3 +37,8 @@ CVE-2026-48818
 # El microservicio cart no recibe application/x-www-form-urlencoded, solo JSON.
 # El vector de ataque no aplica. Misma restricción de compatibilidad que CVE-2026-48818.
 CVE-2026-54283
+# CVE-2026-5079 - multer HIGH DoS via deeply nested field names
+# multer es dependencia transitiva de @nestjs/platform-express, no se usa directamente.
+# El microservicio checkout no recibe multipart/form-data en ningún endpoint.
+# Fix disponible en multer 2.2.0 pero requiere actualización de @nestjs/platform-express.
+CVE-2026-5079
