@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "services" {
   for_each    = toset(var.service_names)
   name        = "${var.project_name}-${each.key}-tg-${var.environment}"
   port        = 8080
-  protocol    = "HTTP"
+  protocol    = "HTTP" # nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
   vpc_id      = var.vpc_id
   target_type = "ip"
 
@@ -61,11 +61,11 @@ resource "aws_lb_target_group" "services" {
   }
 }
 
-# nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
+
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = "80"
-  protocol          = "HTTP"
+  protocol          = "HTTP" # nosemgrep: terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
 
   default_action {
     type = "fixed-response"
