@@ -22,3 +22,14 @@ variable "availability_zones" {
   description = "Lista de availability zones"
   type        = list(string)
 }
+
+variable "private_subnet_cidrs" {
+  description = "Lista de CIDRs para subnets privadas"
+  type        = list(string)
+}
+
+variable "enable_nat_gateway" {
+  description = "Habilitar NAT Gateway para salida a internet de subnets privadas"
+  type        = bool
+  default     = true
+}

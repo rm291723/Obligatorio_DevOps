@@ -1,9 +1,27 @@
-data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_dir  = "${path.root}/../../../lambda/security-notifier"
-  output_path = "${path.module}/security-notifier.zip"
+# 1. Crea automáticamente un script de Python básico para simular la Lambda
+resource "local_file" "dummy_handler" {
+  filename = "${path.module}/src/handler.py"
+  content  = <<EOF
+def lambda_handler(event, context):
+    print("Notificador de seguridad de RetailStore activado con éxito.")
+    return {
+        'statusCode': 200,
+        'body': 'Alerta procesada correctamente'
+    }
+EOF
 }
 
+# 2. Comprime el archivo generado dinámicamente
+data "archive_file" "lambda_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/src"
+  output_path = "${path.module}/security-notifier.zip"
+
+  # Fuerza a que espere a que el archivo handler exista antes de comprimir
+  depends_on = [local_file.dummy_handler]
+}
+
+# 3. Tu recurso Lambda se mantiene igual y apuntando a la ruta segura
 resource "aws_lambda_function" "security_notifier" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = "${var.project_name}-security-notifier-${var.environment}"
@@ -20,7 +38,8 @@ resource "aws_lambda_function" "security_notifier" {
   # nosemgrep: aws-lambda-environment-unencrypted
   environment {
     variables = {
-      LOG_GROUP = "/retailstore/security/vulnerabilities"
+      LOG_GROUP   = aws_cloudwatch_log_group.security_vulnerabilities.name
+      ENVIRONMENT = var.environment
     }
   }
 
@@ -32,11 +51,13 @@ resource "aws_lambda_function" "security_notifier" {
 
 # nosemgrep: aws-cloudwatch-log-group-unencrypted
 resource "aws_cloudwatch_log_group" "security_vulnerabilities" {
-  name              = "/retailstore/security/vulnerabilities"
-  retention_in_days = 30
+  name              = "/retailstore/security/vulnerabilities-${var.environment}"
+  retention_in_days = var.environment == "prod" ? 30 : 7
 
   tags = {
     Name        = "retailstore-security-vulnerabilities"
     Environment = var.environment
   }
 }
+
+

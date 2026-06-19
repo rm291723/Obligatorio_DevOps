@@ -17,3 +17,8 @@ output "lambda_function_name" {
   description = "Nombre de la Lambda de seguridad"
   value       = module.lambda.lambda_function_name
 }
+output "alb_dns_name" {
+  description = "URL pública para acceder a la aplicación RetailStore"
+  value       = module.alb.alb_dns_name
+}
+

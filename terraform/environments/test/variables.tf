@@ -50,3 +50,14 @@ variable "services" {
     }))
   }))
 }
+
+# --- NUEVAS VARIABLES DE CONTROL CORREGIDAS ---
+variable "private_subnet_cidrs" {
+  description = "CIDRs de subnets privadas"
+  type        = list(string)
+}
+
+variable "services_list" {
+  description = "Lista plana de nombres de microservicios"
+  type        = list(string)
+}

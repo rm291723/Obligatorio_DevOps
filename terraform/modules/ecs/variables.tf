@@ -45,3 +45,13 @@ variable "services" {
     }))
   }))
 }
+
+variable "alb_security_group_id" {
+  type        = string
+  description = "ID del Security Group del ALB para securizar la entrada"
+}
+
+variable "target_group_arns" {
+  type        = map(string)
+  description = "Mapa de ARNs de Target Groups creados por el modulo ALB"
+}
