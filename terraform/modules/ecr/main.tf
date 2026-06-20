@@ -1,6 +1,5 @@
 resource "aws_ecr_repository" "this" {
-  for_each = toset(var.services)
-
+  for_each             = toset(var.services)
   name                 = "${var.project_name}/${each.value}"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
@@ -14,3 +13,4 @@ resource "aws_ecr_repository" "this" {
     Environment = var.environment
   }
 }
+

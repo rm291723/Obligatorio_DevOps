@@ -55,3 +55,10 @@ variable "services" {
     }))
   }))
 }
+
+# Agrega esta variable al final de tus declaraciones actuales
+variable "private_subnet_cidrs" {
+  description = "CIDRs de subnets privadas"
+  type        = list(string)
+}
+

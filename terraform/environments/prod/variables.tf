@@ -38,6 +38,16 @@ variable "ecr_registry" {
   type        = string
 }
 
+variable "private_subnet_cidrs" {
+  description = "CIDRs de subnets privadas"
+  type        = list(string)
+}
+
+variable "services_list" {
+  description = "Lista servicios a desplegar en ECS"
+  type        = list(string)
+}
+
 variable "services" {
   description = "Configuracion de servicios"
   type = map(object({

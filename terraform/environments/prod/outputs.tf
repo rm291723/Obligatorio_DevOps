@@ -8,3 +8,8 @@ output "cluster_name" {
   value       = module.ecs.cluster_name
 }
 
+output "alb_dns_name" {
+  description = "URL publica para acceder a la aplicacion en Produccion"
+  value       = module.alb.alb_dns_name
+}
+

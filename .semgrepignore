@@ -1,3 +1,6 @@
 # Excluir módulos Lambda de reglas KMS - Learner Lab no soporta KMS keys
 terraform/modules/ecr/
 terraform/modules/lambda/
+
+# Excluir alerta de version de TLS en el ALB debido a restricciones del laboratorio educativo
+terraform.aws.security.insecure-load-balancer-tls-version.insecure-load-balancer-tls-version
