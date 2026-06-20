@@ -76,7 +76,7 @@ jobs:
       - name: Start services with Docker Compose
         run: |
           docker compose up -d
-          sleep 30
+          sleep 60
 
       - name: Run Newman tests
         run: newman run tests/retailstore.collection.json --reporters cli,junit --reporter-junit-export results/newman-results.xml
