@@ -94,3 +94,19 @@ resource "aws_lb_listener_rule" "services" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "root" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 1
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.services["ui"].arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/", "/*"]
+    }
+  }
+}
