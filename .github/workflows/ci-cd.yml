@@ -207,6 +207,9 @@ jobs:
         working-directory: terraform/environments/dev
         run: |
           terraform init
+          for service in admin cart catalog checkout orders ui; do
+            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+          done
           terraform apply -auto-approve
 
   deploy-test:
@@ -230,6 +233,9 @@ jobs:
         working-directory: terraform/environments/test
         run: |
           terraform init
+          for service in admin cart catalog checkout orders ui; do
+            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+          done
           terraform apply -auto-approve
 
   deploy-prod:
@@ -253,4 +259,7 @@ jobs:
         working-directory: terraform/environments/prod
         run: |
           terraform init
+          for service in admin cart catalog checkout orders ui; do
+            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+          done
           terraform apply -auto-approve
