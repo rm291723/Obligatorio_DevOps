@@ -72,14 +72,14 @@ resource "aws_nat_gateway" "main" {
 }
 
 resource "aws_route_table" "private" {
-  count  = var.enable_nat_gateway ? (var.environment == "prod" ? length(var.private_subnet_cidrs) : 1) : 1
+  count  = length(var.private_subnet_cidrs)
   vpc_id = aws_vpc.main.id
 
   dynamic "route" {
     for_each = var.enable_nat_gateway ? [1] : []
     content {
       cidr_block     = "0.0.0.0/0"
-      nat_gateway_id = aws_nat_gateway.main[var.environment == "prod" ? count.index : 0].id
+      nat_gateway_id = aws_nat_gateway.main[0].id
     }
   }
   tags = { Name = "${var.project_name}-private-rt-${count.index + 1}-${var.environment}" }
@@ -88,6 +88,6 @@ resource "aws_route_table" "private" {
 resource "aws_route_table_association" "private" {
   count          = length(aws_subnet.private)
   subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private[var.environment == "prod" ? count.index : 0].id
+  route_table_id = aws_route_table.private[count.index].id
 }
 
