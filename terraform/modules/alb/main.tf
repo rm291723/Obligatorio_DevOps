@@ -97,7 +97,7 @@ resource "aws_lb_listener_rule" "services" {
 
 resource "aws_lb_listener_rule" "root" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 1
+  priority     = 100
 
   action {
     type             = "forward"
@@ -106,7 +106,7 @@ resource "aws_lb_listener_rule" "root" {
 
   condition {
     path_pattern {
-      values = ["/", "/*"]
+      values = ["/"]
     }
   }
 }
