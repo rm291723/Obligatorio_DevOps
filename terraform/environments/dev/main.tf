@@ -120,10 +120,10 @@ locals {
       desired_count = 1
       environment_vars = [
         { name = "PORT", value = "8080" },
-        { name = "RETAIL_UI_ENDPOINTS_CATALOG", value = "http://${module.alb.alb_dns_name}/catalog" },
-        { name = "RETAIL_UI_ENDPOINTS_CARTS", value = "http://${module.alb.alb_dns_name}/cart" },
-        { name = "RETAIL_UI_ENDPOINTS_CHECKOUT", value = "http://${module.alb.alb_dns_name}/checkout" },
-        { name = "RETAIL_UI_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}/orders" }
+        { name = "RETAIL_UI_ENDPOINTS_CATALOG", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_CARTS", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_CHECKOUT", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}" }
       ]
     }
   }
