@@ -56,9 +56,19 @@ variable "services" {
   }))
 }
 
-# Agrega esta variable al final de tus declaraciones actuales
 variable "private_subnet_cidrs" {
   description = "CIDRs de subnets privadas"
   type        = list(string)
+}
+
+variable "db_username" {
+  description = "Usuario de la base de datos"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Contraseña de la base de datos"
+  type        = string
+  sensitive   = true
 }
 

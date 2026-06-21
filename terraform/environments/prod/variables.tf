@@ -48,15 +48,13 @@ variable "services_list" {
   type        = list(string)
 }
 
-variable "services" {
-  description = "Configuracion de servicios"
-  type = map(object({
-    cpu           = number
-    memory        = number
-    desired_count = number
-    environment_vars = list(object({
-      name  = string
-      value = string
-    }))
-  }))
+variable "db_username" {
+  description = "Usuario de la base de datos"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Contraseña de la base de datos"
+  type        = string
+  sensitive   = true
 }
