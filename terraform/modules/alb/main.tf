@@ -142,3 +142,19 @@ resource "aws_lb_listener_rule" "carts" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "auth" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 8
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.services["admin"].arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/auth/*", "/auth"]
+    }
+  }
+}
