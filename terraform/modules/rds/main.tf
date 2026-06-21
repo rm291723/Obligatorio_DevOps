@@ -50,6 +50,8 @@ resource "aws_db_instance" "main" {
   skip_final_snapshot = true
   publicly_accessible = false
 
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+
   tags = {
     Name        = "${var.project_name}-db-${var.environment}"
     Environment = var.environment
