@@ -17,7 +17,7 @@ resource "aws_security_group" "rds" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = var.private_subnet_cidrs
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -65,7 +65,7 @@ resource "aws_db_instance" "main" {
   parameter_group_name   = aws_db_parameter_group.main.name
 
   skip_final_snapshot             = true
-  publicly_accessible             = false
+  publicly_accessible             = true
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 
   tags = {
