@@ -5,3 +5,8 @@ output "endpoint" {
 output "db_name" {
   value = aws_db_instance.main.db_name
 }
+
+output "security_group_id" {
+  description = "ID del security group de la RDS"
+  value       = aws_security_group.rds.id
+}

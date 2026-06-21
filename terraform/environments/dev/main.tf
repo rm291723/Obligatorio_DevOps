@@ -144,10 +144,16 @@ module "ecs" {
 }
 
 module "lambda" {
-  source         = "../../modules/lambda"
-  project_name   = var.project_name
-  environment    = var.environment
-  aws_account_id = var.aws_account_id
-  aws_region     = var.aws_region
+  source                = "../../modules/lambda"
+  project_name          = var.project_name
+  environment           = var.environment
+  aws_account_id        = var.aws_account_id
+  aws_region            = var.aws_region
+  vpc_id                = module.vpc.vpc_id
+  private_subnet_ids    = module.vpc.private_subnet_ids
+  db_endpoint           = module.rds.endpoint
+  db_username           = var.db_username
+  db_password           = var.db_password
+  rds_security_group_id = module.rds.security_group_id
 }
 
