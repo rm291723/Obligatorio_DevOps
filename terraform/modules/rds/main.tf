@@ -33,6 +33,22 @@ resource "aws_security_group" "rds" {
   }
 }
 
+resource "aws_db_parameter_group" "main" {
+  name   = "${var.project_name}-pg-${var.environment}"
+  family = "postgres16"
+
+  parameter {
+    name         = "rds.force_ssl"
+    value        = "0"
+    apply_method = "pending-reboot"
+  }
+
+  tags = {
+    Name        = "${var.project_name}-pg-${var.environment}"
+    Environment = var.environment
+  }
+}
+
 resource "aws_db_instance" "main" {
   identifier        = "${var.project_name}-db-${var.environment}"
   engine            = "postgres"
@@ -46,10 +62,10 @@ resource "aws_db_instance" "main" {
 
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
+  parameter_group_name   = aws_db_parameter_group.main.name
 
-  skip_final_snapshot = true
-  publicly_accessible = false
-
+  skip_final_snapshot             = true
+  publicly_accessible             = false
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 
   tags = {
