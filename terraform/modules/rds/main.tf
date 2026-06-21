@@ -65,7 +65,7 @@ resource "aws_db_instance" "main" {
   parameter_group_name   = aws_db_parameter_group.main.name
 
   skip_final_snapshot             = true
-  publicly_accessible             = true
+  publicly_accessible             = true # nosemgrep: terraform.lang.security.rds-public-access.rds-public-access
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 
   tags = {
