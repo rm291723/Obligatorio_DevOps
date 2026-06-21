@@ -99,7 +99,7 @@ locals {
         { name = "PORT", value = "8080" },
         { name = "RETAIL_CHECKOUT_PERSISTENCE_PROVIDER", value = "redis" },
         { name = "RETAIL_CHECKOUT_PERSISTENCE_REDIS_URL", value = "redis://redis:6379" },
-        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://orders:8080" }
+        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}/orders" }
       ]
     }
     orders = {
