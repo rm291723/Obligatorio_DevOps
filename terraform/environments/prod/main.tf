@@ -94,12 +94,12 @@ locals {
     checkout = {
       cpu           = 256
       memory        = 512
-      desired_count = 2
+      desired_count = 2 # test usa 1, prod usa 2
       environment_vars = [
         { name = "PORT", value = "8080" },
         { name = "RETAIL_CHECKOUT_PERSISTENCE_PROVIDER", value = "redis" },
         { name = "RETAIL_CHECKOUT_PERSISTENCE_REDIS_URL", value = "redis://redis:6379" },
-        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://orders:8080" }
+        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}/orders" }
       ]
     }
     orders = {
@@ -115,11 +115,15 @@ locals {
       ]
     }
     ui = {
-      cpu           = 256
+      cpu           = 2 # test usa 1, prod usa 2
       memory        = 512
-      desired_count = 2
+      desired_count = 2 # test usa 1, prod usa 2
       environment_vars = [
-        { name = "PORT", value = "8080" }
+        { name = "PORT", value = "8080" },
+        { name = "RETAIL_UI_ENDPOINTS_CATALOG", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_CARTS", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_CHECKOUT", value = "http://${module.alb.alb_dns_name}" },
+        { name = "RETAIL_UI_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}" }
       ]
     }
   }
@@ -140,9 +144,15 @@ module "ecs" {
 }
 
 module "lambda" {
-  source         = "../../modules/lambda"
-  project_name   = var.project_name
-  environment    = var.environment
-  aws_account_id = var.aws_account_id
-  aws_region     = var.aws_region
+  source                = "../../modules/lambda"
+  project_name          = var.project_name
+  environment           = var.environment
+  aws_account_id        = var.aws_account_id
+  aws_region            = var.aws_region
+  vpc_id                = module.vpc.vpc_id
+  private_subnet_ids    = module.vpc.private_subnet_ids
+  db_endpoint           = module.rds.endpoint
+  db_username           = var.db_username
+  db_password           = var.db_password
+  rds_security_group_id = module.rds.security_group_id
 }
