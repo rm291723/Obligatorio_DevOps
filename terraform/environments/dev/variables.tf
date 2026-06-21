@@ -43,19 +43,6 @@ variable "services_list" {
   type        = list(string)
 }
 
-variable "services" {
-  description = "Configuracion de servicios"
-  type = map(object({
-    cpu           = number
-    memory        = number
-    desired_count = number
-    environment_vars = list(object({
-      name  = string
-      value = string
-    }))
-  }))
-}
-
 variable "private_subnet_cidrs" {
   description = "CIDRs de subnets privadas"
   type        = list(string)
