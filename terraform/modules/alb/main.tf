@@ -126,3 +126,19 @@ resource "aws_lb_listener_rule" "api" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "carts" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 9
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.services["cart"].arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/carts/*", "/carts"]
+    }
+  }
+}
