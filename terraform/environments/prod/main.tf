@@ -95,11 +95,11 @@ locals {
     checkout = {
       cpu           = 256
       memory        = 512
-      desired_count = 2
+      desired_count = 1
       environment_vars = [
         { name = "PORT", value = "8080" },
         { name = "RETAIL_CHECKOUT_PERSISTENCE_PROVIDER", value = "in-memory" },
-        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}/orders" }
+        { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}" }
       ]
     }
     orders = {
