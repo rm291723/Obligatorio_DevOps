@@ -115,9 +115,9 @@ locals {
       ]
     }
     ui = {
-      cpu           = 2 # test usa 1, prod usa 2
+      cpu           = 256
       memory        = 512
-      desired_count = 2 # test usa 1, prod usa 2
+      desired_count = 2
       environment_vars = [
         { name = "PORT", value = "8080" },
         { name = "RETAIL_UI_ENDPOINTS_CATALOG", value = "http://${module.alb.alb_dns_name}" },
