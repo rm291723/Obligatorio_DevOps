@@ -85,6 +85,7 @@ locals {
       desired_count = 1
       environment_vars = [
         { name = "GIN_MODE", value = "release" },
+        { name = "RETAIL_CATALOG_PERSISTENCE_PROVIDER", value = "postgres" },
         { name = "RETAIL_CATALOG_PERSISTENCE_ENDPOINT", value = local.db_endpoint },
         { name = "RETAIL_CATALOG_PERSISTENCE_DB_NAME", value = "catalogdb" },
         { name = "RETAIL_CATALOG_PERSISTENCE_USER", value = var.db_username },
