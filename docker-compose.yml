@@ -34,7 +34,7 @@ services:
     build:
       context: ./src/cart
     environment:
-      CART_PERSISTENCE_PROVIDER: postgres
+      CART_PERSISTENCE_PROVIDER: in-memory
       CART_POSTGRES_HOST: db
       CART_POSTGRES_PORT: "5432"
       CART_POSTGRES_DB: cartdb
