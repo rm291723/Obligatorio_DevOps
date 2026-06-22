@@ -82,7 +82,7 @@ locals {
     catalog = {
       cpu           = 256
       memory        = 512
-      desired_count = 1
+      desired_count = 2
       environment_vars = [
         { name = "GIN_MODE", value = "release" },
         { name = "RETAIL_CATALOG_PERSISTENCE_PROVIDER", value = "postgres" },
@@ -95,11 +95,10 @@ locals {
     checkout = {
       cpu           = 256
       memory        = 512
-      desired_count = 2 # test usa 1, prod usa 2
+      desired_count = 2
       environment_vars = [
         { name = "PORT", value = "8080" },
-        { name = "RETAIL_CHECKOUT_PERSISTENCE_PROVIDER", value = "redis" },
-        { name = "RETAIL_CHECKOUT_PERSISTENCE_REDIS_URL", value = "redis://redis:6379" },
+        { name = "RETAIL_CHECKOUT_PERSISTENCE_PROVIDER", value = "in-memory" },
         { name = "RETAIL_CHECKOUT_ENDPOINTS_ORDERS", value = "http://${module.alb.alb_dns_name}/orders" }
       ]
     }
