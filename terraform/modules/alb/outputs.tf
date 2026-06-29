@@ -12,3 +12,8 @@ output "alb_security_group_id" {
   description = "ID del SG del ALB para securizar el ECS"
   value       = aws_security_group.alb.id
 }
+
+output "alb_arn_suffix" {
+  description = "ARN suffix del ALB para usar en métricas de CloudWatch"
+  value       = aws_lb.main.arn_suffix
+}
