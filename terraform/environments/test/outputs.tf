@@ -8,3 +8,12 @@ output "cluster_name" {
   value       = module.ecs.cluster_name
 }
 
+output "dashboard_url" {
+  description = "URL del dashboard de observabilidad en CloudWatch"
+  value       = module.observability.dashboard_url
+}
+
+output "sns_alerts_arn" {
+  description = "ARN del SNS topic para suscribirse a las alertas"
+  value       = module.observability.sns_topic_arn
+}

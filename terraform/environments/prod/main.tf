@@ -156,3 +156,15 @@ module "lambda" {
   db_password           = var.db_password
   rds_security_group_id = module.rds.security_group_id
 }
+
+module "observability" {
+  source = "../../modules/observability"
+
+  project_name     = var.project_name
+  environment      = var.environment
+  aws_region       = var.aws_region
+  alb_arn_suffix   = module.alb.alb_arn_suffix
+  ecs_cluster_name = module.ecs.cluster_name
+  rds_instance_id  = "${var.project_name}-db-${var.environment}"
+  services         = var.services_list
+}
