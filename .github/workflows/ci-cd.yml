@@ -208,9 +208,23 @@ jobs:
         run: |
           terraform init
           for service in admin cart catalog checkout orders ui; do
-            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+            terraform state show \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              2>/dev/null || \
+            terraform import \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              retailstore/$service
           done
           terraform apply -auto-approve
+
+      - name: Initialize databases
+        run: |
+          aws lambda invoke \
+            --function-name retailstore-db-initializer-dev \
+            --region us-east-1 \
+            --payload '{}' \
+            /tmp/db-init.json
+          cat /tmp/db-init.json
 
   deploy-test:
     name: Deploy to Test
@@ -234,9 +248,22 @@ jobs:
         run: |
           terraform init
           for service in admin cart catalog checkout orders ui; do
-            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+            terraform state show \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              2>/dev/null || \
+            terraform import \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              retailstore/$service
           done
           terraform apply -auto-approve
+      - name: Initialize databases
+        run: |
+          aws lambda invoke \
+            --function-name retailstore-db-initializer-test \
+            --region us-east-1 \
+            --payload '{}' \
+            /tmp/db-init.json
+          cat /tmp/db-init.json
 
   deploy-prod:
     name: Deploy to Prod
@@ -260,6 +287,19 @@ jobs:
         run: |
           terraform init
           for service in admin cart catalog checkout orders ui; do
-            terraform import "module.ecr.aws_ecr_repository.this[\"$service\"]" retailstore/$service 2>/dev/null || true
+            terraform state show \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              2>/dev/null || \
+            terraform import \
+              "module.ecr.aws_ecr_repository.this[\"$service\"]" \
+              retailstore/$service
           done
           terraform apply -auto-approve
+      - name: Initialize databases
+        run: |
+          aws lambda invoke \
+            --function-name retailstore-db-initializer-prod \
+            --region us-east-1 \
+            --payload '{}' \
+            /tmp/db-init.json
+          cat /tmp/db-init.json
