@@ -224,6 +224,11 @@ jobs:
               "module.ecr.aws_ecr_repository.this[\"$service\"]" \
               retailstore/$service
           done
+          terraform state show "module.lambda.aws_cloudwatch_log_group.security_vulnerabilities" \
+            2>/dev/null || \
+          terraform import \
+            "module.lambda.aws_cloudwatch_log_group.security_vulnerabilities" \
+            /retailstore/security/vulnerabilities-dev
           terraform apply -auto-approve
 
       - name: Initialize databases
